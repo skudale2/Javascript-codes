@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Midterm 7 and 8</title>
+  <link rel="stylesheet" href="leaflet.css" />
+  <script src="leaflet.js"></script>
+  <script src="Clipped.js"></script>
+  <style>
+    #map {
+      height: 700px;
+      width: 700px;
+      border: solid 1px black;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+  <p id="demo"></p>
+
+  <script>
+
+    var map = L.map('map', {
+      center: [19.074534, 73.026845],
+      zoom: 10
+    });
+
+    var grayscale = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var districtsGeoJSON = L.geoJSON(mum);
+    districtsGeoJSON.addTo(map);
+
+    map.on('dragend', function onDragEnd(){
+    var width = map.getBounds().getEast() - map.getBounds().getWest();
+    var height = map.getBounds().getNorth() - map.getBounds().getSouth();
+
+    alert (
+        'center:' + map.getCenter() +'\n'+
+        'width:' + width +'\n'+
+        'height:' + height +'\n'+
+        'size in pixels:' + map.getSize() 
+    )});
+
+var distsGeoJSON = L.geoJSON(mum); 
+distsGeoJSON.addTo(map);
+
+var boundingbox = distsGeoJSON.getBounds();
+
+console.log(boundingbox);
+
+    map.getBounds();
+
+	var baseLayers = {
+		'Grayscale': grayscale
+	};
+
+	var overlays = {
+		"Tehsils": districtsGeoJSON
+	};
+
+	var layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+</script>
+
+</body>
+</html>
